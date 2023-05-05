@@ -1,4 +1,5 @@
 import ExpenseItem from "./ExpenseItem";
+import {MdDelete} from 'react-icons/md'
 
 export default function ExpenseList({ expenses }){
   return(
@@ -8,6 +9,13 @@ export default function ExpenseList({ expenses }){
           <ExpenseItem key={expense.id} expense={expense}/>
         ))}
       </ul>
+
+      {expenses.length > 0 && (
+        <button className='btn'>
+          clear expenses
+          <MdDelete className='btn-icon' />
+        </button>
+      )}
     </>
   );
 }
