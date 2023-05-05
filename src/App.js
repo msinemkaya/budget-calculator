@@ -3,15 +3,23 @@ import ExpenseForm from './components/ExpenseForm';
 import ExpenseList from './components/ExpenseList';
 import Alert from './components/Alert';
 import { v4 as uuid } from 'uuid';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+const initialExpenses = localStorage.getItem('expenses')
+  ? JSON.parse(localStorage.getItem('expenses'))
+  : [];
 
 function App() {
-  const [expenses, setExpenses] = useState([]);
+  const [expenses, setExpenses] = useState(initialExpenses);
   const [amount, setAmount] = useState('');
   const [charge, setCharge] = useState('');
   const [alert, setAlert] = useState({ show: false });
-  const [edit, setEdit] = useState(false)
-  const [id, setId] = useState(0)
+  const [edit, setEdit] = useState(false);
+  const [id, setId] = useState(0);
+
+  useEffect(() => {
+    localStorage.setItem('expenses', JSON.stringify(expenses));
+  }, [expenses]);
 
   const handleCharge = ({ target }) => {
     setCharge(target.value);
@@ -32,12 +40,13 @@ function App() {
     e.preventDefault();
 
     if (charge !== '' && amount > 0) {
-
-      if(edit) {
-        let tempExpenses = expenses.map((item) => item.id === id ? {...item, charge, amount} :item)
-        setExpenses(tempExpenses)
-        setEdit(false)
-      }else {
+      if (edit) {
+        let tempExpenses = expenses.map((item) =>
+          item.id === id ? { ...item, charge, amount } : item
+        );
+        setExpenses(tempExpenses);
+        setEdit(false);
+      } else {
         const singleExpense = { id: uuid(), charge, amount };
         setExpenses([...expenses, singleExpense]);
         handleAlert({ type: 'success', text: 'item added' });
@@ -58,17 +67,17 @@ function App() {
   };
 
   const handleDelete = (id) => {
-    let tempExpenses = expenses.filter(item => item.id !== id)
-    setExpenses(tempExpenses)
+    let tempExpenses = expenses.filter((item) => item.id !== id);
+    setExpenses(tempExpenses);
   };
 
   const handleEdit = (id) => {
-    let expense = expenses.find(item => item.id === id)
-    let {charge, amount} = expense
-    setCharge(charge)
-    setAmount(amount)
-    setEdit(true)
-    setId(id)
+    let expense = expenses.find((item) => item.id === id);
+    let { charge, amount } = expense;
+    setCharge(charge);
+    setAmount(amount);
+    setEdit(true);
+    setId(id);
   };
 
   return (
