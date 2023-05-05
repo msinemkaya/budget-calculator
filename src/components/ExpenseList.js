@@ -1,12 +1,12 @@
 import ExpenseItem from "./ExpenseItem";
 import {MdDelete} from 'react-icons/md'
 
-export default function ExpenseList({ expenses, clearItems }){
+export default function ExpenseList({ expenses, clearItems, handleEdit, handleDelete }){
   return(
     <>
       <ul className='list'>
         {expenses.map((expense) => (
-          <ExpenseItem key={expense.id} expense={expense}/>
+          <ExpenseItem key={expense.id} expense={expense} handleDelete={handleDelete} handleEdit={handleEdit}/>
         ))}
       </ul>
 

@@ -1,6 +1,6 @@
 import {MdEdit, MdDelete} from 'react-icons/md'
 
-export default function ExpenseItem({ expense }){
+export default function ExpenseItem({ expense, handleEdit, handleDelete }){
   const {id, charge, amount} = expense
   return(
     <>
@@ -10,8 +10,8 @@ export default function ExpenseItem({ expense }){
           <span className="amount">${amount}</span>
         </div>
         <div className=''>
-          <button className='edit-btn'><MdEdit /></button>
-          <button className='clear-btn'><MdDelete /></button>
+          <button className='edit-btn' onClick={e => handleEdit(id)}><MdEdit /></button>
+          <button className='clear-btn' onClick={e => handleDelete(id)}><MdDelete /></button>
         </div>
       </li>
     </>

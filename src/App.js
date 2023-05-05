@@ -10,6 +10,8 @@ function App() {
   const [amount, setAmount] = useState('');
   const [charge, setCharge] = useState('');
   const [alert, setAlert] = useState({ show: false });
+  const [edit, setEdit] = useState(false)
+  const [id, setId] = useState(0)
 
   const handleCharge = ({ target }) => {
     setCharge(target.value);
@@ -20,29 +22,54 @@ function App() {
   };
 
   const handleAlert = ({ type, text }) => {
-    setAlert({show:true, type, text})
+    setAlert({ show: true, type, text });
     setTimeout(() => {
-      setAlert({show:false})
+      setAlert({ show: false });
     }, 2000);
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (charge !== '' && amount > 0) {
-      const singleExpense = { id: uuid(), charge, amount };
-      setExpenses([...expenses, singleExpense]);
+
+      if(edit) {
+        let tempExpenses = expenses.map((item) => item.id === id ? {...item, charge, amount} :item)
+        setExpenses(tempExpenses)
+        setEdit(false)
+      }else {
+        const singleExpense = { id: uuid(), charge, amount };
+        setExpenses([...expenses, singleExpense]);
+        handleAlert({ type: 'success', text: 'item added' });
+      }
+
       setCharge('');
       setAmount('');
-      handleAlert({type:'success', text: 'item added'})
-    }else {
-      handleAlert({type:'danger', text:`charge can't be an empty value and amount has to be bigger than zero`})
+    } else {
+      handleAlert({
+        type: 'danger',
+        text: `charge can't be an empty value and amount has to be bigger than zero`,
+      });
     }
   };
 
   const clearItems = () => {
-    setExpenses([])
-  }
+    setExpenses([]);
+  };
+
+  const handleDelete = (id) => {
+    let tempExpenses = expenses.filter(item => item.id !== id)
+    setExpenses(tempExpenses)
+  };
+
+  const handleEdit = (id) => {
+    let expense = expenses.find(item => item.id === id)
+    let {charge, amount} = expense
+    setCharge(charge)
+    setAmount(amount)
+    setEdit(true)
+    setId(id)
+  };
 
   return (
     <>
@@ -55,8 +82,14 @@ function App() {
           handleAmount={handleAmount}
           handleCharge={handleCharge}
           handleSubmit={handleSubmit}
+          edit={edit}
         />
-        <ExpenseList expenses={expenses} clearItems={clearItems} />
+        <ExpenseList
+          expenses={expenses}
+          clearItems={clearItems}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+        />
       </main>
       <h1>
         Total Spending:{' '}
