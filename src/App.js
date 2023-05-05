@@ -2,12 +2,16 @@ import './App.css'
 import ExpenseForm from './components/ExpenseForm'
 import ExpenseList from './components/ExpenseList'
 import Alert from './components/Alert'
-import uuid from 'uuid'
+import {v4 as uuid} from 'uuid'
 import { useState } from 'react'
+
+const initialExpenses = [{
+  id: uuid(), charge: 'rent', amount: 666
+}]
 
 function App() {
 
-  const [expenses, setExpenses] = useState([])
+  const [expenses, setExpenses] = useState(initialExpenses)
 
   return (
     <>
