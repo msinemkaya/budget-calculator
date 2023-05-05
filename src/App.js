@@ -40,6 +40,10 @@ function App() {
     }
   };
 
+  const clearItems = () => {
+    setExpenses([])
+  }
+
   return (
     <>
       {alert.show && <Alert type={alert.type} text={alert.text} />}
@@ -52,7 +56,7 @@ function App() {
           handleCharge={handleCharge}
           handleSubmit={handleSubmit}
         />
-        <ExpenseList expenses={expenses} />
+        <ExpenseList expenses={expenses} clearItems={clearItems} />
       </main>
       <h1>
         Total Spending:{' '}
