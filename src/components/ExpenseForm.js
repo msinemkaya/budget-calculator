@@ -1,6 +1,7 @@
 import { MdSend } from 'react-icons/md';
 
 export default function ExpenseForm({
+  // we get all the values that we passed on on the App.js 
   charge,
   amount,
   handleAmount,
@@ -36,6 +37,8 @@ export default function ExpenseForm({
           />
         </div>
       </div>
+
+      {/* if the edit is true than we display edit as a text otherwise we use submit as a text on the button */}
       <button type='submit' className='btn'>
         {edit ? 'edit': 'submit'}
         <MdSend className='btn-icon' />

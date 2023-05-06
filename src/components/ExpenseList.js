@@ -10,6 +10,7 @@ export default function ExpenseList({ expenses, clearItems, handleEdit, handleDe
         ))}
       </ul>
 
+      {/* if the expenses' length is bigger than zero we display the clear all button */}
       {expenses.length > 0 && (
         <button className='btn' onClick={clearItems}>
           clear expenses

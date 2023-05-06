@@ -10,6 +10,7 @@ export default function ExpenseItem({ expense, handleEdit, handleDelete }){
           <span className="amount">${amount}</span>
         </div>
         <div className=''>
+          {/* to pass the expenses id we are on, we dont directly call the handle methods but instead call them within a callback function */}
           <button className='edit-btn' onClick={e => handleEdit(id)}><MdEdit /></button>
           <button className='clear-btn' onClick={e => handleDelete(id)}><MdDelete /></button>
         </div>
